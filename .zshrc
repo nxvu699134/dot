@@ -93,7 +93,6 @@ export EDITOR='nvim'
 # export PATH=$PATH:$GOROOT/bin:$GOBIN
 
 export PATH="$HOME/.cargo/bin:$PATH"
-
 export BAT_THEME="OneHalfDark"
 
 export PGDATA=/usr/local/pgsql/data
@@ -114,3 +113,5 @@ eval "$(fnm env --use-on-cd)"
 #   *) export PATH="$PNPM_HOME:$PATH" ;;
 # esac
 # pnpm end
+
+export CONFIG_DIR="$HOME/.config/lazygit"
