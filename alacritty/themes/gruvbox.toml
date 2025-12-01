@@ -1,0 +1,45 @@
+[colors.primary]
+background = "#282828"
+foreground = "#ebdbb2"
+dim_foreground = "#bdae93"
+bright_foreground = "#fbf1c7"
+
+[colors.cursor]
+text = "#282828"
+cursor = "#fbf1c7"
+
+[colors.vi_mode_cursor]
+text = "#282828"
+cursor = "#fbf1c7"
+
+[colors.selection]
+text = "CellForeground"
+background = "#3f3f3f"
+
+[colors.search.matches]
+foreground = "CellBackground"
+background = "#fe8019"
+
+# [colors.footer_bar]
+# background = "#434c5e"
+# foreground = "#d8dee9"
+
+[colors.normal]
+black   = "#2e2e2e" #this color use for inactive tmux pane
+red     = "#fb4934"
+green   = "#b8bb26"
+yellow  = "#fabd2f"
+blue    = "#78a9c0"
+magenta = "#d3869b"
+cyan    = "#8ec07c"
+white   = "#fbf1c7"
+
+[colors.bright]
+black   = "#444444"
+red     = "#cc241d"
+green   = "#98971a"
+yellow  = "#d79921"
+blue    = "#458588"
+magenta = "#b16286"
+cyan    = "#689d6a"
+white   = "#bdae93"

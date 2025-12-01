@@ -2,7 +2,7 @@
 TERM = "$TERM"
 
 [general]
-import = ["~/.config/alacritty/themes/nord-dark.toml"]
+import = ["~/.config/alacritty/themes/gruvbox.toml"]
 live_config_reload = true
 
 [window]
