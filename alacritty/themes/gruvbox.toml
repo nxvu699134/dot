@@ -20,9 +20,9 @@ background = "#3f3f3f"
 foreground = "CellBackground"
 background = "#fe8019"
 
-# [colors.footer_bar]
-# background = "#434c5e"
-# foreground = "#d8dee9"
+[colors.footer_bar]
+background = "#fe8019"
+foreground = "#282828"
 
 [colors.normal]
 black   = "#2e2e2e" #this color use for inactive tmux pane
