@@ -59,13 +59,14 @@ return {
       ignore_list = {}
     },
     filters = {
-      enable = true,
       dotfiles = false,
-      custom = { '.git' }
+      git_ignored = false,
+      custom = { '.git', 'node_modules' }
     },
     view = {
-      width = 36,
+      width = 30,
       side = 'left',
+      preserve_window_proportions = true,
     },
     actions = {
       open_file = {
@@ -79,6 +80,18 @@ return {
         enable = true,
       },
       highlight_git = true,
+      icons = {
+        glyphs = {
+          default = "󰈚",
+          folder = {
+            default = "",
+            empty = "",
+            empty_open = "",
+            open = "",
+            symlink = "",
+          },
+        },
+      },
     },
     on_attach = on_attach,
   },

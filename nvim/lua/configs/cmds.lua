@@ -16,3 +16,28 @@ vim.api.nvim_create_autocmd("BufWritePre", {
       vim.cmd([[%s/\s\+$//e]])
   end,
 })
+
+--Statusline
+local Statusline = vim.api.nvim_create_augroup("Statusline", { clear = true })
+
+vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+  group = Statusline,
+  callback = function()
+    vim.opt_local.statusline = "%!v:lua.require('configs.statusline').active_line()"
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
+  group = Statusline,
+  callback = function()
+    vim.opt_local.statusline = "%{%v:lua.require('configs.statusline').inactive_line()%}"
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "FileType", "WinEnter", "BufEnter", "WinLeave", "BufLeave"}, {
+  group = Statusline,
+  pattern = { "NvimTree_1", "startify" },
+  callback = function()
+    vim.opt_local.statusline = "%{%v:lua.require('configs.statusline').empty_line()%}"
+  end,
+})

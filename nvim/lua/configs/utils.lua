@@ -36,20 +36,6 @@ local function hsl_to_hex(h, s, l)
   return rgb_to_hex(math.floor(255 * f(0) + 0.5), math.floor(255 * f(8) + 0.5), math.floor(255 * f(4) + 0.5))
 end
 
-
-local function parse_style(style_str)
-  local ret = {}
-  if not style_str or style_str == "NONE" then
-    return ret
-  end
-
-  for token in string.gmatch(style_str, "([^,]+)") do
-    ret[token] = true
-  end
-
-  return ret
-end
-
 local function dump(o)
    if type(o) == 'table' then
       local s = '{ '
@@ -63,21 +49,8 @@ local function dump(o)
    end
 end
 
-local function nvim_hl(group, opt)
-  local hl_opt = parse_style(opt.style)
-  local DEFAULT = 'NONE'
-  hl_opt.bg = opt.bg and opt.bg or DEFAULT
-  hl_opt.fg = opt.fg and opt.fg or DEFAULT
-  vim.api.nvim_set_hl(0, group, hl_opt)
-end
-
-local function highlight(group, color)
-  local DEFAULT = 'NONE'
-  local fg = color.fg and color.fg or DEFAULT
-  local bg = color.bg and color.bg or DEFAULT
-  local style = color.style and color.style or DEFAULT
-  local cmd = string.format("highlight %s guifg=%s guibg=%s gui=%s", group, fg, bg, style)
-  vim.api.nvim_command(cmd)
+local function nvim_hl(group, opts)
+  vim.api.nvim_set_hl(0, group, opts)
 end
 
 
@@ -95,7 +68,6 @@ return {
 	hex_to_rgb = hex_to_rgb,
 	rgba_to_rgb = rgba_to_rgb,
   hsl_to_hex = hsl_to_hex,
-	highlight = highlight,
   nvim_hl = nvim_hl,
   swap_win = swap_win
 }

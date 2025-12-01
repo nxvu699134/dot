@@ -27,6 +27,8 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_python3_provider = 0
 
 -------------------- PLUGINS -------------------------------
+require("configs")
+
 require("lazy").setup({
   spec = {
     { import = "plugins" },
@@ -35,4 +37,3 @@ require("lazy").setup({
   checker = { enabled = false },
 })
 
-require("configs")

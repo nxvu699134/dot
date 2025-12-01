@@ -1,9 +1,11 @@
 local schema = require('configs.colorscheme').schema
+local u = require('configs.utils')
+
 
 local modes = setmetatable(
   {
-    n       = { text = 'NOR', color = schema.cyan },
-    i       = { text = 'INS', color = schema.blue },
+    n       = { text = 'NOR', color = schema.blue },
+    i       = { text = 'INS', color = schema.yellow },
     c       = { text = 'CMD', color = schema.orange },
     v       = { text = 'VIS', color = schema.purple },
     V       = { text = 'L·V', color = schema.purple },
@@ -12,7 +14,7 @@ local modes = setmetatable(
   },
   { -- this is fallback if key not exist
     __index = function()
-      return 'UNK'
+      return { text = 'UNK', color = schema.base[4]}
     end
   }
 )
@@ -23,64 +25,55 @@ local sep = {
 }
 
 local function get_current_mode()
-  local cur_mode = vim.api.nvim_get_mode().mode
-  vim.cmd(string.format("hi StatusLineMode guibg=%s", modes[cur_mode].color))
-  vim.cmd(string.format("hi StatusLineSepMode_0 guifg=%s", modes[cur_mode].color))
-  return modes[cur_mode].text
+  local cur = vim.api.nvim_get_mode().mode or "n"
+  local info = modes[cur] or modes.n
+  u.nvim_hl("StatusLineMode", { fg = schema.bg, bg = info.color })
+  u.nvim_hl("StatusLineSepMode", { fg = info.color })
+  return info.text
 end
 
 local function get_file_info()
-  local file_name = vim.fn.expand('%:t')
-  if file_name == '' then file_name = '[No Name]' end
-  local file_extension = vim.fn.expand('%:e')
-  local read_only_icon = vim.bo.filetype == 'help' and vim.bo.readonly == true and '  ' or ''
-  local modified_icon = '  '
+  local name = vim.fn.expand('%:t')
+  if name == '' or name == nil then name = '[No Name]' end
+  local ext = vim.fn.expand('%:e')
+  local ro_icon = vim.bo.readonly and ' ' or ''
+  local icon = "󰈚 "
+  local ok, devicons = pcall(require, "nvim-web-devicons")
+  if ok then
+    local ic = devicons.get_icon(name)
+    icon = (ic ~= nil and ic .. " ") or icon
+  end
+
   if vim.bo.modifiable then
     if vim.bo.modified then
-      modified_icon = '󰳼 '
-      vim.cmd(string.format("hi StatusLineFileName guifg=%s", schema.red))
+      u.nvim_hl("StatusLineFileName", { fg = schema.red, bg = schema.sl_bg1 })
     else
-      vim.cmd(string.format("hi StatusLineFileName guifg=%s", schema.gray[11]))
+      u.nvim_hl("StatusLineFileName", { fg = schema.fg, bg = schema.sl_bg1 })
     end
   end
-  return string.format("%s %s %s", read_only_icon, file_name, modified_icon)
-end
-
-local function get_file_type()
-  file_name = vim.fn.expand('%:t')
-  file_extension = vim.fn.expand('%:e')
-  icon = require'nvim-web-devicons'.get_icon(file_name, file_extension)
-  icon = icon == nil and '' or icon
-  file_type = vim.bo.filetype
-  if file_type == '' then file_type = 'No ft' end
-  return icon .. ' ' .. file_type
+  return string.format(" %s%s%s ", ro_icon, icon, name)
 end
 
 local function get_lsp_count()
   if vim.tbl_isempty(vim.lsp.get_clients({buffer=0})) then
     return ''
   end
-  local diag = ''
-  local error_count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-  if error_count > 0 then
-    diag = diag .. string.format("%%#StatusLineLspError# %s ", error_count)
-  end
 
-  local warning_count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-  if warning_count > 0 then
-    diag = diag .. string.format("%%#StatusLineLspWarn# %s ", warning_count)
+  local severity = vim.diagnostic.severity
+  local counts = {
+    { severity = severity.ERROR,   icon = " ", group = "StatusLineLspError" },
+    { severity = severity.WARN,    icon = " ", group = "StatusLineLspWarn" },
+    { severity = severity.INFO,    icon = " ", group = "StatusLineLspInfo" },
+    { severity = severity.HINT,    icon = "󰛩 ", group = "StatusLineLspInfo" },
+  }
+  local ret = ''
+  for _, v in ipairs(counts) do
+    local n = #vim.diagnostic.get(0, { severity = v.severity })
+    if n > 0 then
+      ret = ret .. string.format("%%#%s#%s%d ", v.group, v.icon, n)
+    end
   end
-
-  local info_count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
-  if info_count > 0 then
-    diag = diag .. string.format("%%#StatusLineLspInfo# %s ", info_count)
-  end
-
-  local hint_count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
-  if hint_count > 0 then
-    diag = diag .. string.format("%%#StatusLineLspInfo#💡%s", hint_count)
-  end
-  return diag
+  return ret
 end
 
 local function get_ln_col()
@@ -88,22 +81,24 @@ local function get_ln_col()
   return string.format("%3d :%2d ", pos[1], pos[2])
 end
 
-function _G.active_line()
+local M = {}
+
+M.active_line = function()
   -- double %% to get % in string
-  -- pattern is %#HightlightGroup#sometext
-  return string.format("%%#StatusLineSepMode_0#%s", sep.open)
+  -- pattern is %#HighlightGroup#sometext
+  return string.format("%%#StatusLineSepMode#%s", sep.open)
       .. string.format("%%#StatusLineMode#%s ", get_current_mode())
       .. string.format("%%#StatusLineFileName#%s", get_file_info())
-      .. string.format("%%#StatusLineSep1_Bg#%s", sep.close)
+      .. string.format("%%#StatusLineFileNameSep#%s", sep.close)
       .. "%#StatusLineBg#"
       .. string.format(" %s", get_lsp_count())
       .. "%=" -- Right section
       .. string.format("%%#StatusLineMode# %s", get_ln_col())
       .. " %P"
-      .. string.format("%%#StatusLineSepMode_0#%s", sep.close)
+      .. string.format("%%#StatusLineSepMode#%s", sep.close)
 end
 
-function _G.inactive_line()
+M.inactive_line = function()
   return string.format("%%#StatusLineSepInactive#%s", sep.open)
       .. string.format("%%#StatusLineInactiveFileName#%s", get_file_info())
       .. "%#StatusLineBg#"
@@ -111,11 +106,8 @@ function _G.inactive_line()
       .. string.format("%%#StatusLineSepInactive#%s", sep.close)
 end
 
-vim.cmd [[
-  augroup Statusline
-	au!
-	au WinEnter,BufEnter * setlocal statusline=%!v:lua.active_line()
-  au WinLeave,BufLeave * setlocal statusline=%{%v:lua.inactive_line()%}
-	au WinEnter,BufEnter,FileType NvimTree,startify setlocal statusline=%{%v:lua.inactive_line()%}
-  augroup END
-]]
+M.empty_line = function()
+  return ""
+end
+
+return M
