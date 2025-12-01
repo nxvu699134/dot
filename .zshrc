@@ -7,9 +7,9 @@ if [[ -r "${xdg_cache_home:-$home/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${xdg_cache_home:-$home/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# export TERM="xterm-256color"
-export TERM="screen-256color"
-# export TERM="tmux-256color"
+# export TERM="xterm-256color" #this term support italic render
+# export TERM="screen-256color"
+export TERM="tmux-256color"
 #
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
