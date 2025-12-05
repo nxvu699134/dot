@@ -21,4 +21,4 @@ else
   echo '{"theme": "light"}' > "$file"
 fi
 # notify neovim but shut up when error
-pkill -USR1 nvim 2>/dev/null
+pkill -USR1 nvim >/dev/null 2>&1 || true
