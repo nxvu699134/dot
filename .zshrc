@@ -118,32 +118,3 @@ export CONFIG_DIR="$HOME/.config/lazygit"
 
 export ALACRITTY_HOME=$HOME/.config/alacritty
 export ALACRITTY_THEME=$ALACRITTY_HOME/theme.json
-
-switch_theme(){
-  local file=$ALACRITTY_THEME
-  local dark_conf="$ALACRITTY_HOME/themes/gruvbox.toml"
-  local light_conf="$ALACRITTY_HOME/themes/gruvbox-light.toml"
-  local active_conf="$ALACRITTY_HOME/themes/active.toml"
-
-  # create file with default theme if missing
-  if [[ ! -f "$file" ]]; then
-    echo '{"theme": "dark"}' > "$file"
-    ln -sf $dark_conf $active_conf
-    return
-  fi
-
-  # read current theme
-  local current=$(sed -n 's/.*"theme": *"\(.*\)".*/\1/p' "$file")
-
-  if [ "$current" = "light" ]; then
-    ln -sf $dark_conf $active_conf
-    echo '{"theme": "dark"}' > "$file"
-  else
-    ln -sf $light_conf $active_conf
-    echo '{"theme": "light"}' > "$file"
-  fi
-  # notify neovim but shut up when error
-  pkill -USR1 nvim 2>/dev/null
-}
-zle -N switch_theme
-bindkey '\e[17~' switch_theme #this is F6 key
