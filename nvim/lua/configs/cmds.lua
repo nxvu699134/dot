@@ -41,3 +41,19 @@ vim.api.nvim_create_autocmd({ "FileType", "WinEnter", "BufEnter", "WinLeave", "B
     vim.opt_local.statusline = "%{%v:lua.require('configs.statusline').empty_line()%}"
   end,
 })
+
+--Auto sync with tmux theme
+vim.api.nvim_create_autocmd("Signal", {
+  group = vim.api.nvim_create_augroup("ToggleOnSIGUSR1", {}),
+  pattern = "SIGUSR1",
+  callback = function()
+    if vim.o.background == 'dark' then
+      vim.o.background = 'light'
+      vim.cmd[[colorscheme light]]
+    else
+      vim.o.background = 'dark'
+      vim.cmd[[colorscheme dark]]
+    end
+    require("plenary.reload").reload_module("configs.statusline")
+  end,
+})

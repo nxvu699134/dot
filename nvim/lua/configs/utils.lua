@@ -53,6 +53,12 @@ local function nvim_hl(group, opts)
   vim.api.nvim_set_hl(0, group, opts)
 end
 
+local function hl_table(t)
+  for group, opts in pairs(t) do
+    nvim_hl(group, opts)
+  end
+end
+
 
 local function swap_win(arg)
   -- :h winnr for more info
@@ -69,5 +75,6 @@ return {
 	rgba_to_rgb = rgba_to_rgb,
   hsl_to_hex = hsl_to_hex,
   nvim_hl = nvim_hl,
-  swap_win = swap_win
+  swap_win = swap_win,
+  hl_table = hl_table,
 }

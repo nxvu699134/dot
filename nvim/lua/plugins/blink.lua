@@ -35,7 +35,7 @@ local lsp_kinds = {
 }
 
 local setup_highlight = function()
-  local schema = require('configs.colorscheme').schema
+  local schema = require('theme.colors').get({theme = vim.g.theme})
   local u = require('configs.utils')
 
   local syntax = {

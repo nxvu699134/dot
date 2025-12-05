@@ -1,6 +1,5 @@
-local schema = require('configs.colorscheme').schema
+local schema = require('theme.colors').get({theme = vim.o.background})
 local u = require('configs.utils')
-
 
 local modes = setmetatable(
   {

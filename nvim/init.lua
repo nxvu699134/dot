@@ -20,7 +20,6 @@ vim.g.loaded_2html_plugin = 1
 vim.g.loaded_netrw        = 1
 vim.g.loaded_netrwPlugin  = 1
 vim.g.loaded_spec         = 1
-vim.g.skip_ts_context_commentstring_module = true
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
