@@ -43,6 +43,8 @@ vim.api.nvim_create_autocmd({ "FileType", "WinEnter", "BufEnter", "WinLeave", "B
 })
 
 --Auto sync with tmux theme
+-- Thank to those guys
+--https://www.reddit.com/r/neovim/comments/1feskw8/how_to_send_a_vim_commandlua_code_to_all_neovim/
 vim.api.nvim_create_autocmd("Signal", {
   group = vim.api.nvim_create_augroup("ToggleOnSIGUSR1", {}),
   pattern = "SIGUSR1",
