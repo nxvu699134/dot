@@ -3,7 +3,7 @@ local u = require('configs.utils')
 local M = {}
 
 M.read_theme = function()
-  local f = io.open(vim.env.ALACRITTY_THEME, "r")
+  local f = io.open(vim.env.HOME .. "/.config/alacritty/theme.json", "r")
   if not f then return nil end
   local content = f:read("*a")
   f:close()

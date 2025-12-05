@@ -115,6 +115,3 @@ eval "$(fnm env --use-on-cd)"
 # pnpm end
 
 export CONFIG_DIR="$HOME/.config/lazygit"
-
-export ALACRITTY_HOME=$HOME/.config/alacritty
-export ALACRITTY_THEME=$ALACRITTY_HOME/theme.json

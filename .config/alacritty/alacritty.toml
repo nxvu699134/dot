@@ -49,5 +49,6 @@ draw_bold_text_with_bright_colors = false
 
 [keyboard]
 bindings = [
-  { key = "Space", mods = "Shift", chars = "_" }
+  { key = "Space", mods = "Shift", chars = "_" },
+  # { key = "F6", command = { program = "/bin/zsh", args = ["~/.local/bin/switch_theme.sh"] } }
 ]
