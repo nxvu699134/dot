@@ -1,0 +1,41 @@
+[colors.primary]
+background = "#f2e5bc"
+foreground = "#574d47"
+dim_foreground = "#bdae93"
+bright_foreground = "#fbf1c7"
+
+[colors.cursor]
+text = "#f2e5bc"
+cursor = "#574d47"
+
+[colors.vi_mode_cursor]
+text = "#282828"
+cursor = "#f2e5bc"
+
+[colors.selection]
+text = "CellForeground"
+background = "#d8cba2"
+
+[colors.search.matches]
+foreground = "CellBackground"
+background = "#af3a03"
+
+[colors.normal]
+black   = "#e3d6ad" #this color use for inactive tmux pane bg
+red     = "#cc241d"
+green   = "#748c18"
+yellow  = "#b57614"
+blue    = "#3d8ca8"
+magenta = "#8f3f71"
+cyan    = "#3d8270"
+white   = "#282828"
+
+[colors.bright]
+black   = "#c0b38a" #this color use for inactive tmux window at footer fg
+red     = "#cc241d"
+green   = "#748c18"
+yellow  = "#b57614"
+blue    = "#3d8ca8"
+magenta = "#8f3f71"
+cyan    = "#3d8270"
+white   = "#cabd94"
