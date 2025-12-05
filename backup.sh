@@ -2,7 +2,7 @@
 
 set -e  # Exit on error
 
-BACKUP_DIR="$(dirname `pwd`)"
+BACKUP_DIR="$(pwd)"
 
 . helpers.sh
 
