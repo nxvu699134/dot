@@ -1,0 +1,4 @@
+*.log
+.config/alacritty/themes/active.toml
+.config/alacritty/theme.json
+.config/lazygit/state.yml
