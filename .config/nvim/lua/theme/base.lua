@@ -119,10 +119,16 @@ M.setup = function(opts)
     DiagnosticHint              =  {  fg=schema.diag.hint.fg,          };
     DiagnosticUnnecessary       =  {  fg=schema.diag.hint.fg_disabled, };
 
-    StartifyPath                =  {  fg=schema.fg            },
-    StartifySlash                =  {  fg=schema.fg            },
-    StartifyHeader                =  {  fg=schema.fg            },
-    StartifyFile                =  {  fg=schema.red            },
+    -- StartifyPath                =  {  fg=schema.fg            },
+    -- StartifySlash                =  {  fg=schema.fg            },
+    -- StartifyHeader                =  {  fg=schema.fg            },
+    -- StartifyFile                =  {  fg=schema.red            },
+    StartMruTitle               =  {  fg=schema.red, bold=true  },
+    StartMruIcon                =  {  fg=schema.orange, bold=true  },
+    StartShortcut               =  {  fg=schema.fg  },
+    StartFilename               =  {  fg=schema.fg  },
+    StartFilepath               =  {  fg=schema.fg_disabled  },
+    StartHeader                 =  {  fg=schema.yellow  },
 
     GitSignsAdd                 =  {  fg=schema.green,                 bg=schema.none              };
     GitSignsChange              =  {  fg=schema.blue,                  bg=schema.none              };
@@ -159,32 +165,6 @@ M.setup = function(opts)
 
     FlashLabel           = {  fg=schema.diag.warning.fg,                     bg=schema.diag.warning.bg,       bold = true, underline = true        },
 
-
-    DevIconc = { fg = schema.blue },
-    DevIconcss = { fg = schema.blue },
-    DevIconDockerfile = { fg = schema.cyan },
-    DevIconhtml = { fg = schema.purple },
-    DevIconjs = { fg = schema.yellow },
-    DevIconlock = { fg = schema.red },
-    DevIconlua = { fg = schema.blue },
-    DevIconout = { fg = schema.fg },
-    DevIconpy = { fg = schema.cyan },
-    DevIcontoml = { fg = schema.blue },
-    DevIconts = { fg = schema.teal },
-    DevIconttf = { fg = schema.fg },
-    DevIconrb = { fg = schema.red },
-    DevIconrpm = { fg = schema.orange },
-    DevIconvue = { fg = schema.green },
-    DevIconwoff = { fg = schema.fg },
-    DevIconwoff2 = { fg = schema.fg },
-    DevIconzip = { fg = schema.yellow },
-    DevIconZig = { fg = schema.orange },
-    DevIconMd = { fg = schema.blue },
-    DevIconTSX = { fg = schema.blue },
-    DevIconJSX = { fg = schema.blue },
-    DevIconSvelte = { fg = schema.red },
-    DevIconJava = { fg = schema.orange },
-    DevIconDart = { fg = schema.cyan },
   }
 
   require('configs.utils').hl_table(syntax)

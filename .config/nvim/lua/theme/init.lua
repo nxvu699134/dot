@@ -21,13 +21,13 @@ M.detect_theme = function()
 end
 
 M.setup = function(opts)
-  if vim.g.colors_name then
-    vim.cmd 'hi clear'
-  end
-
-  if vim.fn.exists 'syntax_on' then
-    vim.cmd 'syntax reset'
-  end
+  -- if vim.g.colors_name then
+  --   vim.cmd 'hi clear'
+  -- end
+  --
+  -- if vim.fn.exists 'syntax_on' then
+  --   vim.cmd 'syntax reset'
+  -- end
 
   vim.g.theme = opts.theme
   vim.g.colors_name = opts.theme
@@ -36,6 +36,8 @@ M.setup = function(opts)
 
   require('theme.base').setup(opts)
   require('theme.treesitter').setup()
+  require('theme.blink').setup()
+  require('theme.nvim-web-devicons').setup()
 end
 
 return M

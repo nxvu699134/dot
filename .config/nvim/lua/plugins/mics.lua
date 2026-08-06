@@ -2,6 +2,9 @@ return {
   {
     'nvim-tree/nvim-web-devicons',
     lazy = true,
+    opts = {
+      variant = vim.o.background,
+    },
   },
 
   {
@@ -34,6 +37,7 @@ return {
         enabled = true,
         highlight = {"Directory"},
       },
+      exclude = {filetypes = {'start'}}
     },
   },
 

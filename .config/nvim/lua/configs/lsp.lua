@@ -12,12 +12,8 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.INFO]  = 'DiagnosticVirtualTextInfo',
       [vim.diagnostic.severity.HINT]  = 'DiagnosticVirtualTextHint',
     }
-  }
-})
-
-vim.diagnostic.config({
+  },
   virtual_text = true,
-  signs = true,
   underline = true,
   update_in_insert = false
 })
@@ -75,3 +71,10 @@ vim.lsp.enable('tailwindcss')
 
 -- npm install -g @vtsls/language-server
 vim.lsp.enable('vtsls')
+
+--create venv in project: python3 -m venv .venv
+-- source .venv/bin/activate
+-- install modules with pip and work with Pyright
+-- deactivate
+-- pip install pyright
+vim.lsp.enable('pyright')

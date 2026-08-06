@@ -5,7 +5,6 @@ return {
       ensure_installed = {
         'html',
         'css',
-        'scss',
         'json',
         'javascript',
         'typescript',
@@ -13,9 +12,9 @@ return {
         'lua',
         'tsx',
         'sql',
+        -- 'rust',
         -- 'svelte',
         -- 'go',
-        -- 'rust',
         -- 'markdown',
         -- 'markdown_inline',
         -- 'cpp',

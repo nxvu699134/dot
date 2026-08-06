@@ -51,17 +51,16 @@ return {
   'nvim-tree/nvim-tree.lua',
   opts = {
     disable_netrw       = true,
-    hijack_netrw        = true,
     open_on_tab         = false,
-    hijack_cursor       = false,
+    hijack_cursor       = true,
     update_focused_file = {
       enable      = true,
       ignore_list = {}
     },
     filters = {
-      dotfiles = false,
+      dotfiles = true,
       git_ignored = false,
-      custom = { '.git', 'node_modules' }
+      custom = { '.git', 'node_modules' },
     },
     view = {
       width = 30,

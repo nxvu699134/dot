@@ -20,9 +20,16 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 --Statusline
 local Statusline = vim.api.nvim_create_augroup("Statusline", { clear = true })
 
+local exclude_ft = { ["NvimTree"] = true, ["start"] = true }
+
 vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
   group = Statusline,
   callback = function()
+    local ft = vim.bo.filetype
+    if exclude_ft[ft] then
+      vim.opt_local.statusline = "%{%v:lua.require('configs.statusline').empty_line()%}"
+      return
+    end
     vim.opt_local.statusline = "%!v:lua.require('configs.statusline').active_line()"
   end,
 })
@@ -30,20 +37,17 @@ vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
 vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
   group = Statusline,
   callback = function()
+    local ft = vim.bo.filetype
+    if exclude_ft[ft] then
+      vim.opt_local.statusline = "%{%v:lua.require('configs.statusline').empty_line()%}"
+      return
+    end
     vim.opt_local.statusline = "%{%v:lua.require('configs.statusline').inactive_line()%}"
   end,
 })
 
-vim.api.nvim_create_autocmd({ "FileType", "WinEnter", "BufEnter", "WinLeave", "BufLeave"}, {
-  group = Statusline,
-  pattern = { "NvimTree_1", "startify" },
-  callback = function()
-    vim.opt_local.statusline = "%{%v:lua.require('configs.statusline').empty_line()%}"
-  end,
-})
-
 --Auto sync with tmux theme
--- Thank to those guys
+-- Thanks to those guys
 --https://www.reddit.com/r/neovim/comments/1feskw8/how_to_send_a_vim_commandlua_code_to_all_neovim/
 vim.api.nvim_create_autocmd("Signal", {
   group = vim.api.nvim_create_augroup("ToggleOnSIGUSR1", {}),
@@ -57,5 +61,12 @@ vim.api.nvim_create_autocmd("Signal", {
       vim.cmd[[colorscheme dark]]
     end
     require("plenary.reload").reload_module("configs.statusline")
+    require("lazy").reload({ plugins = {
+        'indent-blankline.nvim',
+        'telescope.nvim',
+        'flash.nvim',
+        'nvim-tree.lua'
+      }
+    })
   end,
 })
