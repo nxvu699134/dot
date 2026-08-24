@@ -1,92 +1,53 @@
 local M = {}
 
 local dark_palette = {
-  none    = 'NONE',
-  red    = "#fb4934",
-  green  = "#b8bb26",
-  yellow = "#fabd2f",
-  blue   = "#74aac3",
-  purple = "#d3869b",
-  cyan   = "#8ec07c",
-  teal   = "#68a895",
-  orange = "#fe8019",
-  base = {
-    "#282828",
-    "#3c3836",
-    "#423e3c",
-    "#484442",
-    "#bdae93",
-    "#d5c4a1",
-    "#ebdbb2",
-    "#fbf1c7",
-  },
-  gray = {
-    "#232323",
-    "#282828",
-    "#2e2e2e",
-    "#353535",
-    "#3f3f3f",
-    "#444444",
-    "#4b4b4b",
-    "#4e4e4e",
-    "#656565",
-  },
+  base    = "#232136",
+  surface = "#2a273f",
+  overlay = "#393552",
+  muted   = "#6e6a86",
+  subtle  = "#908caa",
+  text    = "#e0def4",
+  love    = "#eb6f92",
+  gold    = "#f6c177",
+  rose    = "#ea9a97",
+  pine    = "#4896B5",
+  foam    = "#88D1D0",
+  iris    = "#c4a7e7",
+  hl_low  = "#2a283e",
+  hl_mid  = "#44415a",
+  hl_high = "#56526e",
 }
 
 local light_palette = {
-  none    = 'NONE',
-  red    = "#cc241d",
-  green  = "#748c18",
-  yellow = "#b57614",
-  blue   = "#3d8ca8",
-  purple = "#8f3f71",
-  cyan   = "#076678",
-  teal   = "#3d8270",
-  orange = "#af3a03",
-  base = {
-    "#f2e5bc",
-    "#e3d6ad",
-    "#e5d8af",
-    "#d8cba2",
-    "#cabd94",
-    "#574d47",
-    "#3c3836",
-    "#282828",
-  },
-  gray = {
-    "#e8dbb2",
-    "#f2e5bc",
-    "#e3d6ad",
-    "#e5d8af",
-    "#d8cba2",
-    "#cabd94",
-    "#c0b38a",
-    "#b6a980",
-    "#a2956c",
-  },
+  base    = "#faf4ed",
+  surface = "#fffaf3",
+  overlay = "#f2e9e1",
+  muted   = "#9893a5",
+  subtle  = "#797593",
+  text    = "#464261",
+  love    = "#b4637a",
+  gold    = "#ea9d34",
+  rose    = "#d7827e",
+  pine    = "#286983",
+  foam    = "#56949f",
+  iris    = "#907aa9",
+  hl_low  = "#f4ede8",
+  hl_mid  = "#dfdad9",
+  hl_high = "#cecacd",
 }
 
 M.get = function(opts)
-  local colors = opts.theme == 'light' and vim.deepcopy(light_palette) or vim.deepcopy(dark_palette)
-  local u = require('configs.utils')
+  local c = opts.theme == 'light' and vim.deepcopy(light_palette) or vim.deepcopy(dark_palette)
+  local u = require('theme.utils')
 
-  colors.bg           =  colors.base[1]
-  colors.bg_hl        =  colors.gray[5]
-  colors.fg           =  colors.base[6]
-  colors.fg_disabled  =  colors.gray[9]
-  colors.fg_invert    =  colors.base[1]
-  colors.sl_bg        =  colors.gray[3]
-  colors.sl_bg1       =  colors.gray[5]
-  colors.sl_fg        =  colors.base[5]
-
-  colors.diag = {
-    danger   =  {  fg  =  colors.red,     bg  =  u.rgba_to_rgb(colors.red,     colors.bg,  0.1)  },
-    warning  =  {  fg  =  colors.yellow,  bg  =  u.rgba_to_rgb(colors.yellow,  colors.bg,  0.1)  },
-    info     =  {  fg  =  colors.blue,    bg  =  u.rgba_to_rgb(colors.blue,    colors.bg,  0.1)  },
-    hint     =  {  fg  =  colors.fg,      bg  =  u.rgba_to_rgb(colors.gray[8], colors.bg,  0.1)  },
+  c.diag = {
+    danger  = {fg=c.love, bg=u.rgba_to_rgb(c.love, c.base,  0.1)},
+    warning = {fg=c.gold, bg=u.rgba_to_rgb(c.gold, c.base,  0.1)},
+    info    = {fg=c.pine, bg=u.rgba_to_rgb(c.pine, c.base,  0.1)},
+    hint    = {fg=c.foam, bg=u.rgba_to_rgb(c.foam, c.base,  0.1)},
   }
 
-  return colors
+  return c
 end
 
 return M

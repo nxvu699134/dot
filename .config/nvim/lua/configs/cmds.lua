@@ -8,41 +8,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Remove trailing whitespace on save
-vim.g.strip_whitespace = true
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = vim.api.nvim_create_augroup("Whitespace", { clear = true }),
   pattern = "*",
   callback = function()
       vim.cmd([[%s/\s\+$//e]])
-  end,
-})
-
---Statusline
-local Statusline = vim.api.nvim_create_augroup("Statusline", { clear = true })
-
-local exclude_ft = { ["NvimTree"] = true, ["start"] = true }
-
-vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
-  group = Statusline,
-  callback = function()
-    local ft = vim.bo.filetype
-    if exclude_ft[ft] then
-      vim.opt_local.statusline = "%{%v:lua.require('configs.statusline').empty_line()%}"
-      return
-    end
-    vim.opt_local.statusline = "%!v:lua.require('configs.statusline').active_line()"
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
-  group = Statusline,
-  callback = function()
-    local ft = vim.bo.filetype
-    if exclude_ft[ft] then
-      vim.opt_local.statusline = "%{%v:lua.require('configs.statusline').empty_line()%}"
-      return
-    end
-    vim.opt_local.statusline = "%{%v:lua.require('configs.statusline').inactive_line()%}"
   end,
 })
 

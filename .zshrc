@@ -32,12 +32,10 @@ ENABLE_CORRECTION="true"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-#
 # zsh tmux settings
-ZSH_TMUX_AUTOSTART='true'
-
+ZSH_TMUX_AUTOSTART=true
+# ZSH_TMUX_DEFAULT_SESSION_NAME=main
+ZSH_TMUX_AUTONAME_SESSION=true
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/

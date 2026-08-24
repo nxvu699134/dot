@@ -1,170 +1,172 @@
 local M = {}
 
 M.setup = function(opts)
-  local schema = require('theme.colors').get(opts)
+  local c = require('theme.colors').get(opts)
+  local u = require('theme.utils')
 
   local syntax = {
-    Normal                      =  {  fg=schema.fg,                    bg=schema.none              },
-    Terminal                    =  {  fg=schema.fg,                    bg=schema.none              },
-    SignColumn                  =  {  fg=schema.fg,                    bg=schema.none              },
-    VertSplit                   =  {  fg=schema.base[4],               bg=schema.none              },
-    IncSearch                   =  {  fg=schema.fg_invert,             bg=schema.orange            },
-    Search                      =  {  fg=schema.fg,                    bg=schema.gray[8]              },
-    CurSearch                   =  {  fg=schema.fg_invert,             bg=schema.orange              },
-    Visual                      =  {  bg=schema.gray[6]              },
-    VisualNOS                   =  {  bg=schema.red              },
-    Conceal                     =  {  fg=schema.gray[4],           bg=schema.none              },
-    Cursor                      =  {  fg=schema.fg_invert,             bg=schema.base[5],            },
-    lCursor                     =  {  fg=schema.fg_invert,             bg=schema.base[7],            },
-    ColorColumn                 =  {  bg=schema.base[1]      },
-    CursorColumn                =  {  fg=schema.none,                  bg=schema.base[1],          },
-    CursorLine                  =  {  bg=schema.bg_hl      },
-    LineNr                      =  {  fg=schema.gray[6],               bg=schema.none              },
-    CursorLineNr                =  {  fg=schema.orange,                bg=schema.none,             bold = true            },
+    Normal                      =  { fg=c.text },
+    Terminal                    =  { link="Normal" },
+    SignColumn                  =  { link="Normal" },
+    WinSeparator                =  { fg=c.muted },
+    Search                      =  { fg=c.text, bg=c.hl_mid },
+    CurSearch                   =  { fg=c.base, bg=c.gold },
+    IncSearch                   =  { link="CurSearch" },
+    Visual                      =  { bg=c.hl_mid },
+    VisualNOS                   =  { bg=c.love },
+    Conceal                     =  { fg=c.overlay },
+    Cursor                      =  { fg=c.base, bg=c.text },
+    lCursor                     =  { link="Cursor"},
+    ColorColumn                 =  { bg=c.surface },
+    CursorColumn                =  { bg=c.overlay },
+    CursorLine                  =  { bg=c.hl_mid },
+    LineNr                      =  { fg=c.muted },
+    CursorLineNr                =  { fg=c.text, bold=true },
 
-    Pmenu                       =  {  bg=schema.bg          },
-    PmenuSbar                   =  {  bg=schema.gray[3]          },
-    PmenuSel                    =  {  fg=schema.bg,              bg=schema.blue      },
-    PmenuThumb                  =  {  bg=schema.gray[6]           },
+    Pmenu                       =  { bg=c.base },
+    PmenuSel                    =  { fg=c.base, bg=c.foam },
+    PmenuThumb                  =  { bg=c.muted },
 
-    DiffAdd                     =  {  fg=schema.fg_invert,             bg=schema.green             },
-    DiffChange                  =  {  fg=schema.fg_invert,             bg=schema.yellow            },
-    DiffDelete                  =  {  fg=schema.fg_invert,             bg=schema.red               },
-    DiffText                    =  {  fg=schema.fg_invert,             bg=schema.fg                },
+    DiffAdd                     =  { fg=c.base, bg=c.pine },
+    DiffChange                  =  { fg=c.base, bg=c.gold },
+    DiffDelete                  =  { fg=c.base, bg=c.love },
+    DiffText                    =  { fg=c.base, bg=c.text },
 
-    Directory                   =  {  fg=schema.blue,                  bg=schema.none              },
-    ErrorMsg                    =  {  fg=schema.red,                   bg=schema.none,             bold = true            };
-    WarningMsg                  =  {  fg=schema.yellow,                bg=schema.none,             bold = true            };
-    ModeMsg                     =  {  fg=schema.fg,                    bg=schema.none,             bold = true            };
-    MatchParen                  =  {  fg=schema.fg,                    bg=schema.gray[6],          bold = true            };
-    NonText                     =  {  fg=schema.base[3],               bg=schema.none              };
-    SpecialKey                  =  {  fg=schema.base[3],               bg=schema.none              };
-    NormalFloat                 =  {  fg=schema.fg,                    bg=schema.bg  };
-    WildMenu                    =  {  fg=schema.red,                   bg=schema.yellow            };
-    Question                    =  {  fg=schema.yellow,                bg=schema.none              };
+    Directory                   =  { fg=c.foam },
+    ErrorMsg                    =  { fg=c.love, bold=true };
+    WarningMsg                  =  { fg=c.gold, bold = true };
+    ModeMsg                     =  { fg=c.text, bold = true };
+    MatchParen                  =  { fg=c.gold, bold=true };
+    NonText                     =  { fg=c.muted };
+    SpecialKey                  =  { fg=c.muted };
+    NormalFloat                 =  { fg=c.text, bg=c.base };
+    WildMenu                    =  { fg=c.love, bg=c.gold };
+    Question                    =  { fg=c.gold };
 
-    StatusLine                  =  {  fg=schema.fg,                    bg=schema.none,                         };--  status  line   of  current      window
-    StatusLineNC                =  {  fg=schema.fg,                    bg=schema.bg,                        };--  status  lines  of  not-current  windows
+    SpellBad                    =  { fg=c.love, undercurl=true };
+    SpellCap                    =  { fg=c.foam, undercurl=true };
+    SpellLocal                  =  { fg=c.foam, undercurl=true };
+    SpellRare                   =  { fg=c.iris, undercurl=true };
+    Debug                       =  { fg=c.love   };
 
-    SpellBad                    =  {  fg=schema.red,                   bg=schema.none,             undercurl = true       };
-    SpellCap                    =  {  fg=schema.blue,                  bg=schema.none,             undercurl = true       };
-    SpellLocal                  =  {  fg=schema.cyan,                  bg=schema.none,             undercurl = true       };
-    SpellRare                   =  {  fg=schema.purple,                bg=schema.none,             undercurl = true       };
-    QuickFixLine                =  {  fg=schema.fg,                    bg=schema.base[1],          };
-    Debug                       =  {  fg=schema.red,                   bg=schema.none              };
+    Boolean                     =  { fg=c.rose, italic = true };
+    Number                      =  { fg=c.gold };
+    Float                       =  { link = "Number"};
+    PreProc                     =  { fg=c.iris };
+    PreCondit                   =  { link = "PreProc"};
+    Define                      =  { link = "PreProc"};
+    Include                     =  { fg=c.pine };
+    Conditional                 =  { link = "Include"};
+    Repeat                      =  { link = "Include"};
+    Keyword                     =  { fg=c.pine, italic=true };
+    Error                       =  { fg=c.love };
+    Statement                   =  { fg=c.pine, bold=true};
+    Type                        =  { fg=c.foam };
+    StorageClass                =  { link = "Type"};
+    Tag                         =  { link = "Type"};
+    Label                       =  { link = "Type"};
+    Structure                   =  { link = "Type"};
+    Special                     =  { link = "Type"};
+    SpecialChar                 =  { link = "Type"};
+    Typedef                     =  { link = "Type"};
+    Operator                    =  { fg=c.subtle};
+    Title                       =  { fg=c.text, bold=true };
+    Function                    =  { fg=c.rose };
+    String                      =  { fg=c.gold };
+    Character                   =  { link = "String"};
+    Constant                    =  { link = "String"};
+    Macro                       =  { link = "PreProc"};
+    Identifier                  =  { link = "Normal"};
+    Comment                     =  { fg=c.muted, italic=true };
+    Delimiter                   =  { fg=c.subtle };
+    Ignore                      =  { link = "Conceal"};
 
-    Boolean                     =  {  fg=schema.orange,                bg=schema.none,             italic = true          };
-    Number                      =  {  fg=schema.orange,                bg=schema.none              };
-    Float                       =  {  fg=schema.orange,                bg=schema.none              };
-    PreProc                     =  {  fg=schema.purple,                bg=schema.none              };
-    PreCondit                   =  {  fg=schema.purple,                bg=schema.none              };
-    Include                     =  {  fg=schema.purple,                bg=schema.none              };
-    Define                      =  {  fg=schema.purple,                bg=schema.none              };
-    Conditional                 =  {  fg=schema.purple,                bg=schema.none              };
-    Repeat                      =  {  fg=schema.purple,                bg=schema.none              };
-    Keyword                     =  {  fg=schema.red,                   bg=schema.none,             italic = true          };
-    Typedef                     =  {  fg=schema.red,                   bg=schema.none              };
-    Statement                   =  {  fg=schema.red,                   bg=schema.none              };
-    Error                       =  {  fg=schema.red,                   bg=schema.none              };
-    StorageClass                =  {  fg=schema.orange,                bg=schema.none              };
-    Tag                         =  {  fg=schema.orange,                bg=schema.none              };
-    Label                       =  {  fg=schema.orange,                bg=schema.none              };
-    Structure                   =  {  fg=schema.orange,                bg=schema.none              };
-    Operator                    =  {  fg=schema.purple,                bg=schema.none              };
-    Title                       =  {  fg=schema.fg,                bg=schema.none,             bold = true            };
-    Special                     =  {  fg=schema.orange,                bg=schema.none              };
-    SpecialChar                 =  {  fg=schema.orange,                bg=schema.none              };
-    Type                        =  {  fg=schema.blue,                  bg=schema.none              };
-    Function                    =  {  fg=schema.yellow,                bg=schema.none              };
-    String                      =  {  fg=schema.green,                 bg=schema.none              };
-    Character                   =  {  fg=schema.green,                 bg=schema.none              };
-    Constant                    =  {  fg=schema.cyan,                  bg=schema.none              };
-    Macro                       =  {  fg=schema.cyan,                  bg=schema.none              };
-    Identifier                  =  {  fg=schema.teal,                  bg=schema.none              };
-    Comment                     =  {  fg=schema.fg_disabled,           bg=schema.none,             italic = true          };
-    Todo                        =  {  fg=schema.yellow,                bg=schema.base[1]              };
-    Delimiter                   =  {  fg=schema.fg,                    bg=schema.none              };
-    Ignore                      =  {  fg=schema.base[4],               bg=schema.none              };
+    NvimTreeEmptyFolderName  = { fg=c.muted },
+		NvimTreeFileDeleted      = { fg=c.love },
+		NvimTreeFileDirty        = { fg=c.rose },
+		NvimTreeFileMerge        = { fg=c.iris },
+		NvimTreeFileNew          = { fg=c.foam },
+		NvimTreeFileRenamed      = { fg=c.pine },
+		NvimTreeFileStaged       = { fg=c.iris },
+		NvimTreeFolderIcon       = { fg=c.subtle },
+		NvimTreeFolderName       = { fg=c.pine },
+		NvimTreeGitDeleted       = { fg=c.love },
+		NvimTreeGitDirty         = { fg=c.rose },
+		NvimTreeGitIgnored       = { fg=c.muted },
+		NvimTreeGitMerge         = { fg=c.iris },
+		NvimTreeGitNew           = { fg=c.foam },
+		NvimTreeGitRenamed       = { fg=c.pine },
+		NvimTreeGitStaged        = { fg=c.iris },
+		NvimTreeImageFile        = { fg=c.text },
+		NvimTreeNormal           = { link = "Normal" },
+		NvimTreeOpenedFile       = { fg=c.text, bg=c.overlay },
+		NvimTreeOpenedFolderName = { link="NvimTreeFolderName" },
+		NvimTreeRootFolder       = { fg=c.love, bold=true },
+		NvimTreeSpecialFile      = { link="Normal" },
 
-    NvimTreeRootFolder         =  {  fg=schema.red,    bold = true    };
-    NvimTreeOpenedFolderName   =  {  fg=schema.blue,   bold = true    };
-    NvimTreeFolderName         =  {  fg=schema.blue,};
-    NvimTreeFolderIcon         =  {  fg=schema.blue },
-    NvimTreeEmptyFolderName    =  {  fg=schema.blue, strikethrough = true },
-    NvimTreeFolderArrowOpen    =  {  fg=schema.blue     },
-    NvimTreeFolderArrowClosed  =  {  fg=schema.gray[7]  },
+    LspReferenceText            =  { bg=c.hl_mid, bold = true };
+    LspReferenceRead            =  { link = "LspReferenceText" };
+    LspReferenceWrite           =  { link = "LspReferenceText" };
 
-    LspReferenceRead            =  {  fg=schema.none,                  bg=schema.bg_hl,     bold = true            };
-    LspReferenceWrite           =  {  fg=schema.none,                  bg=schema.bg_hl,     bold = true            };
-    LspReferenceText            =  {  fg=schema.none,                  bg=schema.bg_hl,     bold = true            };
+    DiagnosticSignError         =  { fg=c.diag.danger.fg,  bold = true };
+    DiagnosticSignWarn          =  { fg=c.diag.warning.fg, bold = true };
+    DiagnosticSignInfo          =  { fg=c.diag.info.fg,    bold = true };
+    DiagnosticSignHint          =  { fg=c.diag.hint.fg,    bold = true };
 
-    DiagnosticSignError         =  {  fg=schema.diag.danger.fg,        bold = true                };
-    DiagnosticSignWarn          =  {  fg=schema.diag.warning.fg,       bold = true                };
-    DiagnosticSignInfo          =  {  fg=schema.diag.info.fg,          bold = true                };
-    DiagnosticSignHint          =  {  fg=schema.diag.hint.fg,          bold = true                };
+    DiagnosticVirtualTextError  =  { fg=c.diag.danger.fg,  bg=c.diag.danger.bg  };
+    DiagnosticVirtualTextWarn   =  { fg=c.diag.warning.fg, bg=c.diag.warning.bg };
+    DiagnosticVirtualTextInfo   =  { fg=c.diag.info.fg,    bg=c.diag.info.bg    };
+    DiagnosticVirtualTextHint   =  { fg=c.diag.hint.fg,    bg=c.diag.hint.bg    };
 
-    DiagnosticVirtualTextError  =  {  fg=schema.diag.danger.fg,        bg=schema.diag.danger.bg,              };
-    DiagnosticVirtualTextWarn   =  {  fg=schema.diag.warning.fg,       bg=schema.diag.warning.bg,             };
-    DiagnosticVirtualTextInfo   =  {  fg=schema.diag.info.fg,          bg=schema.diag.info.bg,                };
-    DiagnosticVirtualTextHint   =  {  fg=schema.diag.hint.fg,          bg=schema.diag.hint.bg,                };
+    DiagnosticUnderlineError    =  { fg=c.diag.danger.fg,  bg=c.diag.danger.bg,   undercurl = true  };
+    DiagnosticUnderlineWarn     =  { fg=c.diag.warning.fg, bg=c.diag.warning.bg,  undercurl = true  };
+    DiagnosticUnderlineInfo     =  { fg=c.diag.info.fg,    bg=c.diag.info.bg,     undercurl = true  };
+    DiagnosticUnderlineHint     =  { fg=c.diag.hint.fg,    bg=c.diag.hint.bg,     undercurl = true  };
 
-    DiagnosticUnderlineError    =  {  fg=schema.diag.danger.fg,        bg=schema.diag.danger.bg,   undercurl = true  };
-    DiagnosticUnderlineWarn     =  {  fg=schema.diag.warning.fg,       bg=schema.diag.warning.bg,  undercurl = true  };
-    DiagnosticUnderlineInfo     =  {  fg=schema.diag.info.fg,          bg=schema.diag.info.bg,     undercurl = true  };
-    DiagnosticUnderlineHint     =  {  fg=schema.diag.hint.fg,          bg=schema.diag.hint.bg,     undercurl = true  };
+    DiagnosticError             =  { fg=c.diag.danger.fg };
+    DiagnosticWarn              =  { fg=c.diag.warning.fg };
+    DiagnosticInfo              =  { fg=c.diag.info.fg };
+    DiagnosticHint              =  { fg=c.diag.hint.fg };
+    DiagnosticUnnecessary       =  { fg=c.diag.hint.fg_disabled };
 
-    DiagnosticError             =  {  fg=schema.diag.danger.fg,        };
-    DiagnosticWarn              =  {  fg=schema.diag.warning.fg,       };
-    DiagnosticInfo              =  {  fg=schema.diag.info.fg,          };
-    DiagnosticHint              =  {  fg=schema.diag.hint.fg,          };
-    DiagnosticUnnecessary       =  {  fg=schema.diag.hint.fg_disabled, };
+    StartMruTitle               =  { fg=c.love, bold=true  },
+    StartMruIcon                =  { fg=c.rose, bold=true  },
+    StartShortcut               =  { fg=c.text  },
+    StartFilename               =  { fg=c.text  },
+    StartFilepath               =  { fg=c.muted  },
+    StartHeader                 =  { fg=c.gold  },
 
-    -- StartifyPath                =  {  fg=schema.fg            },
-    -- StartifySlash                =  {  fg=schema.fg            },
-    -- StartifyHeader                =  {  fg=schema.fg            },
-    -- StartifyFile                =  {  fg=schema.red            },
-    StartMruTitle               =  {  fg=schema.red, bold=true  },
-    StartMruIcon                =  {  fg=schema.orange, bold=true  },
-    StartShortcut               =  {  fg=schema.fg  },
-    StartFilename               =  {  fg=schema.fg  },
-    StartFilepath               =  {  fg=schema.fg_disabled  },
-    StartHeader                 =  {  fg=schema.yellow  },
+    GitSignsAdd                 =  { fg=c.pine };
+    GitSignsChange              =  { fg=c.iris };
+    GitSignsDelete              =  { fg=c.love };
 
-    GitSignsAdd                 =  {  fg=schema.green,                 bg=schema.none              };
-    GitSignsChange              =  {  fg=schema.blue,                  bg=schema.none              };
-    GitSignsDelete              =  {  fg=schema.red,                   bg=schema.none              };
+    StatusLine                  =  { fg=c.base, bg=c.surface };
+    StatusLineNC                =  { fg=c.base, bg=c.surface };
+    StatusLineLspError          =  { fg=c.love, bg=c.surface  },
+    StatusLineLspWarn           =  { fg=c.gold, bg=c.surface  },
+    StatusLineLspInfo           =  { fg=c.foam, bg=c.surface  },
+    StatusLineOverlay           =  { fg=c.text, bg=c.overlay },
+    StatusLineOverlayMuted      =  { fg=c.muted, bg=c.overlay },
+    StatusLineGitAdd            =  { fg=c.pine, bg=c.overlay },
+    StatusLineGitChange         =  { fg=c.iris, bg=c.overlay },
+    StatusLineGitRemove         =  { fg=c.love, bg=c.overlay },
 
-    StatusLineBg                =  {  bg=schema.sl_bg    },
-    StatusLineMode              =  {  fg=schema.fg_invert,       bg=schema.blue       },
-    StatusLineFileName          =  {  fg=schema.fg,              bg=schema.sl_bg1       },
-    StatusLineFileNameSep       =  {  fg=schema.sl_bg1,          bg=schema.sl_bg      },
-    StatusLineLspError          =  {  fg=schema.red,             bg=schema.sl_bg        },
-    StatusLineLspWarn           =  {  fg=schema.yellow,          bg=schema.sl_bg        },
-    StatusLineLspInfo           =  {  fg=schema.blue,            bg=schema.sl_bg        },
-    StatusLineInactiveFileName  =  {  fg=schema.fg_disabled,     bg=schema.sl_bg1       },
-    StatusLineSepMode         =  {  fg=schema.blue,                },
-    StatusLineSepInactive       =  {  fg=schema.base[3],                 },
+    WinBar                      =  { fg=c.text, bg=c.overlay, bold=true};
+    WinBarNC                    =  { fg=c.muted, bg=c.surface };
+    WinBarUnsave                =  { fg=c.love },
+    WinBarStick                 =  { fg=c.pine },
+    WinBarStickInactive         =  { fg=c.muted },
 
-    -- CmpItemAbbr                 =  {  fg=schema.fg,                    bg=schema.none,             };
-    -- CmpItemAbbrMatch            =  {  fg=schema.blue,                  bg=schema.none,             style='bold'};
-    -- CmpItemAbbrMatchFuzzy       =  {  fg=schema.blue,                  bg=schema.none,             style='bold'};
-    -- CmpItemAbbrDeprecated       =  {  fg=schema.fg_disabled,           bg=schema.none,             style='strikethrough'};
-    -- CmpItemKindFunction         =  {  fg=schema.yellow,                bg=schema.none              };
-    -- CmpItemKindMethod           =  {  fg=schema.yellow,                bg=schema.none              };
-    -- CmpItemKindInterface        =  {  fg=schema.yellow,                bg=schema.none              };
-    -- CmpItemKindModule           =  {  fg=schema.yellow,                bg=schema.none              };
-    -- CmpItemKindDefault          =  {  fg=schema.fg,                    bg=schema.none              };
-    -- CmpItemKindCopilot          =  {  fg=schema.cyan,                  bg=schema.none              };
+    FlashLabel           = {  fg=c.base,  bg=c.love, bold=true },
 
-    TelescopeSelection          = {  fg=schema.fg,                      bg=schema.bg_hl,   bold = true              },
-    TelescopeBorder             = {  fg=schema.cyan,                    bg=schema.none              },
-    TelescopeSelectionCaret     = {  fg=schema.red,                     bg=schema.none              },
-    TelescopePromptPrefix     = {  fg=schema.red,                     bg=schema.none              },
-    TelescopeResultsNormal      = {  fg=schema.fg,                 bg=schema.none              },
-    TelescopeMatching           = {  fg=schema.red,                     bg=schema.none,       bold = true, underline = true        },
-
-    FlashLabel           = {  fg=schema.diag.warning.fg,                     bg=schema.diag.warning.bg,       bold = true, underline = true        },
-
+    FzfLuaTitle        =  {  fg=c.foam },
+    FzfLuaBorder       =  {  fg=c.subtle },
+    FzfLuaFzfPointer   =  {  fg=c.foam },
+    FzfLuaFzfPrompt    =  {  fg=c.foam },
+    FzfLuaFzfInfo      =  {  link="Normal" },
+    FzfLuaFzfNormal    =  {  link="Normal" },
+    FzfLuaFzfCursorLine=  {  fg=c.text, bg=c.hl_mid },
+    FzfLuaFzfMatch     =  {  fg=c.love, bg=c.hl_mid },
   }
 
   require('configs.utils').hl_table(syntax)

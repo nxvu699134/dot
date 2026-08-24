@@ -26,8 +26,11 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_python3_provider = 0
 
 -------------------- PLUGINS -------------------------------
+-- require('vim._core.ui2').enable()
+require("lsp")
 require("configs")
-
+vim.cmd([[let &t_Cs = "\e[4:3m"]])
+vim.cmd([[let &t_Ce = "\e[4:0m"]])
 require("lazy").setup({
   spec = {
     { import = "plugins" },

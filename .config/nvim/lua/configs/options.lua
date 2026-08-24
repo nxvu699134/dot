@@ -12,7 +12,7 @@ o.ignorecase = true
 o.smartcase = true
 o.showmode = false
 o.clipboard = 'unnamedplus'-- Sync with system clipboard
-o.laststatus = 2
+o.laststatus = 3
 o.ttyfast = true
 o.autoread = true
 o.hidden = true -- keep hidden buffers
@@ -24,6 +24,7 @@ o.relativenumber = true
 o.wrap = true
 o.swapfile = false
 o.writebackup = false
+o.winborder = 'rounded'
 
 --I suffered bad experience for diagnostic messages when it's default 4000.
 o.updatetime = 400

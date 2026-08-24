@@ -69,7 +69,6 @@ return {
           columns = {
             {"label", "label_description" },
             { "kind"},
-            -- {"source_name"}
           },
           components = {
             kind = {

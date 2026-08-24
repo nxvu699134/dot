@@ -35,9 +35,8 @@ M.setup = function(opts)
   vim.o.termguicolors = true
 
   require('theme.base').setup(opts)
-  require('theme.treesitter').setup()
+  require('theme.treesitter').setup(opts)
   require('theme.blink').setup()
-  require('theme.nvim-web-devicons').setup()
 end
 
 return M

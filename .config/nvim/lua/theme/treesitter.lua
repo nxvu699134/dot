@@ -1,43 +1,47 @@
 local M = {}
 
-M.setup = function()
+M.setup = function(opts)
+  local c = require('theme.colors').get(opts)
+
   local syntax = {
-    ['@comment' ] =    {link  =  'Comment'},
-    ['@error'   ] =      {link  =  'Error'},
-    ['@none'    ] =       {bg    =  'NONE'   ,        fg  =  'NONE'},
-    ['@preproc' ] =    {link  =  'PreProc'},
-    ['@define'  ] =     {link  =  'Define'},
-    ['@operator'] =   {link  =  'Operator'},
+    ['@comment' ] = { link = 'Comment'},
+    ['@error'   ] = { link = 'Error'},
+    ['@preproc' ] = { link = 'PreProc'},
+    ['@define'  ] = { link = 'Define'},
+    ['@operator'] = { link = 'Operator'},
 
     ['@punctuation.delimiter'] =   {link = 'Delimiter'},
     ['@punctuation.bracket'  ] =   {link = 'Delimiter'},
     ['@punctuation.special'  ] =   {link = 'Delimiter'},
 
     ['@string'           ] =  {link = 'String'},
-    ['@string.regex'     ] =  {link = 'String'},
-    ['@string.escape'    ] =  {link = 'SpecialChar'},
-    ['@string.special'   ] =  {link = 'SpecialChar'},
+    ['@string.regexp'    ] =  {link = 'String'},
+    ['@string.escape'    ] =  {link = 'String'},
+    ['@string.special'   ] =  {link = 'String'},
 
     ['@character'        ] =  {link = 'Character'},
-    ['@character.special'] =  {link = 'SpecialChar'},
+    ['@character.special'] =  {link = 'Character'},
 
     ['@boolean'          ] =  {link = 'Boolean'},
     ['@number'           ] =  {link = 'Number'},
+    ['@number.float'     ] =  {link = 'Number'},
     ['@float'            ] =  {link = 'Float'},
 
     ['@function'        ] =       {link = 'Function'}   ,
     ['@function.call'   ] =       {link = 'Function'}   ,
-    ['@function.builtin'] =       {link = 'Special'}    ,
-    ['@function.macro'  ] =       {link = 'Macro'}      ,
+    ['@function.builtin'] =       { fg=c.rose, bold=true}    ,
+    ['@function.macro'  ] =       {link = 'Function'}      ,
+    ['@function.method' ] =       {link = 'Function'}      ,
+    ['@function.method.call'] =   { fg=c.iris}      ,
     ['@method'          ] =       {link = 'Function'}   ,
     ['@method.call'     ] =       {link = 'Function'}   ,
-    ['@constructor'     ] =       {link = 'Special'}    ,
-    ['@parameter'       ] =       {link = 'Identifier'} ,
+    ['@constructor'     ] =       {link = 'Type'}    ,
+    ['@parameter'       ] =       { fg=c.iris, italic=true} ,
 
     ['@keyword'             ] =    {link = 'Keyword'}     ,
-    ['@keyword.function'    ] =    {link = 'Keyword'}     ,
-    ['@keyword.operator'    ] =    {link = 'Keyword'}     ,
-    ['@keyword.return'      ] =    {link = 'Keyword'}     ,
+    ['@keyword.operator'    ] =    {link = 'Operator'}     ,
+    ['@keyword.return'      ] =    {link = 'Include'}     ,
+    ['@keyword.repeat'      ] =    {link = 'Repeat'}     ,
     ['@conditional'         ] =    {link = 'Conditional'} ,
     ['@repeat'              ] =    {link = 'Repeat'}         ,
     ['@debug'               ] =    {link = 'Debug'}          ,
@@ -45,21 +49,24 @@ M.setup = function()
     ['@include'             ] =    {link = 'Include'}        ,
     ['@exception'           ] =    {link = 'Exception'}      ,
 
-    ['@type'                ] =    {link = 'Type'}           ,
     ['@interface'           ] =    {link = 'Type'}           ,
-    ['@type.builtin'        ] =    {link = 'Type'}           ,
+    ['@type'                ] =    {link = 'Type'}           ,
+    ['@type.builtin'        ] =    { fg=c.foam, bold=true}           ,
     ['@type.qualifier'      ] =    {link = 'Type'}           ,
-    ['@type.definition'     ] =    {link = 'Typedef'}        ,
     ['@storageclass'        ] =    {link = 'StorageClass'}   ,
-    ['@attribute'           ] =    {link = 'PreProc'}        ,
-    ['@field'               ] =    {link = 'Identifier'}     ,
-    ['@property'            ] =    {link = 'Identifier'}     ,
+    ['@attribute'           ] =    { fg=c.iris }        ,
+    ['@field'               ] =    {link = 'Type'}     ,
+    ['@property'            ] =    { fg=c.foam, italic=true}     ,
 
-    ['@variable'            ] =    {link = 'Normal'}         ,
-    ['@variable.builtin'    ] =    {link = 'Special'}        ,
+    ['@variable'            ] =    { fg=c.text }         ,
+    ['@variable.builtin'    ] =    { fg = c.love, italic=true, bold=true },
+    ["@variable.parameter"] = { fg = c.iris, italic=true },
+    ["@variable.parameter.builtin"] = { fg = c.iris, italic=true, bold=true},
+		["@variable.member"] = { fg = c.foam, italic=true },
+
     ['@constant'            ] =    {link = 'Constant'}       ,
-    ['@constant.builtin'    ] =    {link = 'Special'}        ,
-    ['@constant.macro'      ] =    {link = 'Define'}         ,
+    ['@constant.macro'      ] =    {link = 'Constant'}         ,
+    ['@constant.builtin'    ] =    { fg=c.gold, bold=true }        ,
     ['@namespace'           ] =    {link = 'Include'}        ,
     ['@symbol'              ] =    {link = 'Identifier'}     ,
 
@@ -73,7 +80,7 @@ M.setup = function()
     ['@text.uri'            ] =    {link = 'Underlined'}     ,
     ['@text.math'           ] =    {link = 'Special'}        ,
     ['@text.environment'    ] =    {link = 'Macro'}          ,
-    ['@text.environment.name'] =    {link = 'Type'}          ,
+    ['@text.environment.name']=    {link = 'Type'}          ,
     ['@text.reference'      ] =    {link = 'Constant'}       ,
     ['@text.todo'           ] =    {link = 'Todo'}           ,
     ['@text.note'           ] =    {link = 'SpecialComment'} ,
@@ -81,8 +88,9 @@ M.setup = function()
     ['@text.danger'         ] =    {link = 'ErrorMsg'},
 
     ['@tag'                 ] =    {link = 'Tag'},
-    ['@tag.attribute'       ] =    {link = 'Identifier'},
+    ['@tag.attribute'       ] =    { fg=c.iris},
     ['@tag.delimiter'       ] =    {link = 'Delimiter'},
+    ['@tag.builtin'         ] =    {link = 'Tag'},
   }
 
   require('configs.utils').hl_table(syntax)

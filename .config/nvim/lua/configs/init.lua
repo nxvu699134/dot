@@ -1,6 +1,7 @@
-require("configs.lsp")
 require('configs.options')
 require('configs.mappings')
 require('configs.cmds')
+require('configs.statusline').setup()
+require('configs.winbar').setup()
 require('theme').detect_theme()
 require('start').setup()
